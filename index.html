@@ -1,0 +1,564 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIDC - Servicios Integrales Cázares</title>
+    <!-- Fuentes Corporativas de Alto Impacto -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js"></script>
+    <style>
+        :root { 
+            --verde-industrial: #006629; 
+            --verde-premium: #00993d; 
+            --verde-brillante: #00e65c;
+            --borde-acero: rgba(255, 255, 255, 0.07);
+            --borde-luz: rgba(0, 153, 61, 0.25);
+            --fondo-obscuro: #090a0a;
+            --fondo-gradiente: radial-gradient(circle at 50% 20%, #121413 0%, #080909 100%);
+            --glass: rgba(20, 22, 22, 0.65);
+            --cromo: linear-gradient(135deg, #e6e6e6 0%, #ffffff 30%, #b3b3b3 70%, #8c8c8c 100%);
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; font-family: 'Inter', sans-serif; background-color: var(--fondo-obscuro); }
+        
+        body { 
+            background: var(--fondo-gradiente); 
+            color: #f0f5f3; 
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+        
+        /* Red de Ingeniería Dinámica */
+        #particulas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; opacity: 0.35; }
+        
+        .cabecera { 
+            background: rgba(9, 10, 10, 0.95); 
+            backdrop-filter: blur(25px); 
+            -webkit-backdrop-filter: blur(25px);
+            padding: 10px 20px; 
+            border-bottom: 1px solid var(--borde-acero); 
+            position: sticky; 
+            top: 0; 
+            z-index: 1000; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+        }
+        .cabecera img { max-height: 65px; width: auto; object-fit: contain; }
+        
+        /* Portada Ultra-Responsive con Imagen Principal */
+        .portada { 
+            width: 100%; 
+            min-height: 85vh; 
+            position: relative; 
+            z-index: 1; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center; 
+            align-items: center; 
+            overflow: hidden; 
+            padding: 60px 20px;
+        }
+        .portada-img { 
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
+            object-fit: cover; object-position: center center; 
+            z-index: -2; filter: brightness(0.28) contrast(1.15);
+        } 
+        .sombra { 
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
+            background: linear-gradient(to bottom, transparent 40%, var(--fondo-obscuro) 95%),
+                        radial-gradient(circle at 50% 50%, transparent 20%, var(--fondo-obscuro) 100%); 
+            z-index: -1; 
+        }
+        .portada-texto { text-align: center; max-width: 980px; animation: fadeInUp 1.2s ease-out; z-index: 2; }
+        
+        @keyframes fadeInUp { 
+            from { opacity: 0; transform: translateY(30px); } 
+            to { opacity: 1; transform: translateY(0); } 
+        }
+
+        .portada h1 { 
+            font-family: 'Montserrat', sans-serif; 
+            font-size: clamp(2.2rem, 6vw, 4.2rem); 
+            color: #ffffff; 
+            margin-bottom: 18px; 
+            font-weight: 800; 
+            letter-spacing: -0.5px;
+            line-height: 1.2;
+            text-shadow: 0 4px 20px rgba(0,0,0,0.8);
+        }
+        .portada h1 span {
+            background: linear-gradient(120deg, #ffffff 35%, var(--verde-brillante));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .portada p { 
+            font-size: clamp(1.05rem, 2.4vw, 1.3rem); 
+            color: #cbd5e1; 
+            margin-bottom: 35px; 
+            max-width: 800px; 
+            margin-left: auto; margin-right: auto;
+            font-weight: 300;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.6);
+        }
+        
+        .contenedor { max-width: 1280px; margin: 0 auto; padding: 60px 24px; position: relative; z-index: 1; }
+        
+        /* Sistema Reveal por Scroll */
+        .revelar { opacity: 0; transform: translateY(40px); transition: all 0.85s cubic-bezier(0.16, 1, 0.3, 1); }
+        .revelar.activo { opacity: 1; transform: translateY(0); }
+
+        .titulo-seccion { text-align: center; margin-bottom: 60px; }
+        .titulo-seccion h2 { 
+            font-family: 'Montserrat', sans-serif;
+            font-size: clamp(2rem, 4vw, 2.8rem); 
+            font-weight: 700; 
+            color: #ffffff; 
+            margin-bottom: 15px; 
+        }
+        .titulo-seccion h2 span { color: var(--verde-premium); }
+        .titulo-seccion p { color: #94a3b8; max-width: 650px; margin: 0 auto; font-size: 1rem; }
+        
+        /* Grid Industrial y Tarjetas */
+        .grid-industrial { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; }
+        
+        .tarjeta-tecnica { 
+            background: var(--glass); 
+            border: 1px solid var(--borde-acero); 
+            border-radius: 14px; 
+            overflow: hidden; 
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s ease, box-shadow 0.4s ease; 
+            backdrop-filter: blur(12px); 
+            -webkit-backdrop-filter: blur(12px);
+            position: relative;
+        }
+        .tarjeta-tecnica::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(800px circle at var(--mouse-x, 0px) var(--mouse-y, 0px), rgba(0, 230, 92, 0.06), transparent 40%);
+            z-index: 3; pointer-events: none;
+        }
+        .tarjeta-tecnica:hover { 
+            border-color: var(--verde-premium); 
+            transform: translateY(-6px); 
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), 0 0 30px rgba(0, 153, 61, 0.15); 
+        }
+        
+        .tarjeta-img-wrap { width: 100%; height: 240px; overflow: hidden; position: relative; border-bottom: 1px solid var(--borde-acero); }
+        .tarjeta-img { width: 100%; height: 100%; object-fit: cover; filter: saturate(0.9) brightness(0.9); transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+        .tarjeta-tecnica:hover .tarjeta-img { transform: scale(1.05); filter: saturate(1) brightness(1); }
+        
+        .tarjeta-cuerpo { padding: 30px; position: relative; z-index: 4; }
+        .tarjeta-tecnica h3 { 
+            font-family: 'Montserrat', sans-serif;
+            color: #ffffff; font-size: 1.25rem; font-weight: 700; margin-bottom: 12px; 
+            display: flex; align-items: center; gap: 10px;
+        }
+        .tarjeta-tecnica h3 i { color: var(--verde-premium); font-size: 1.1rem; }
+        .tarjeta-tecnica p { color: #94a3b8; line-height: 1.6; font-size: 0.95rem; font-weight: 300; }
+        
+        /* Manifiesto Corporativo */
+        .manifiesto-ingenieria { 
+            background: linear-gradient(135deg, rgba(0, 102, 41, 0.12) 0%, rgba(10, 11, 11, 0.8) 100%); 
+            border: 1px solid var(--borde-luz); 
+            border-radius: 20px; 
+            padding: 50px 30px; 
+            text-align: center; 
+            margin: 70px 0; 
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+            backdrop-filter: blur(10px);
+        }
+        .manifiesto-ingenieria h2 { font-family: 'Montserrat', sans-serif; color: #fff; font-size: 1.8rem; font-weight: 700; margin-bottom: 20px; }
+        .manifiesto-ingenieria p { color: #cbd5e1; line-height: 1.8; max-width: 950px; margin: 0 auto; font-size: 1.05rem; font-weight: 300; }
+        
+        /* Botones Generales */
+        .btn { 
+            background: var(--verde-industrial); 
+            color: #ffffff; 
+            padding: 14px 32px; 
+            border-radius: 6px; 
+            text-decoration: none; 
+            font-weight: 600; 
+            font-size: 0.9rem;
+            letter-spacing: 0.5px; 
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); 
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin: 6px; 
+            border: 1px solid rgba(255,255,255,0.05); 
+            cursor: pointer; 
+        }
+        .btn:hover { background: var(--verde-premium); box-shadow: 0 0 30px rgba(0,153,61,0.4); transform: translateY(-2px); }
+        .btn-borde { background: transparent; border: 1px solid rgba(255,255,255,0.2); color: #fff; }
+        .btn-borde:hover { background: rgba(255,255,255,0.05); border-color: #ffffff; box-shadow: none; }
+        .btn-wsp { background: #1ebe58; }
+        .btn-wsp:hover { background: #17a64b; box-shadow: 0 0 30px rgba(30,190,88,0.4); }
+        .btn-mail { background: #24292e; border: 1px solid var(--borde-acero); }
+        .btn-mail:hover { background: #333a42; box-shadow: 0 0 25px rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.3); }
+        
+        /* Sección Ubicación */
+        .mapa-global { margin-top: 60px; text-align: center; }
+        .mapa-global h2 { font-family: 'Montserrat', sans-serif; font-size: 1.8rem; margin-bottom: 30px; }
+        .mapa-contenedor { border-radius: 16px; overflow: hidden; border: 1px solid var(--borde-acero); margin-bottom: 25px; box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
+        .mapa-contenedor iframe { width: 100%; height: 400px; border: none; display: block; filter: grayscale(40%) invert(92%) hue-rotate(110deg) brightness(95%) contrast(90%); }
+        .mapa-global p { color: #94a3b8; font-size: 1rem; margin-top: 15px; font-weight: 300; }
+        
+        /* Footer Industrial */
+        .pie { background: #050606; border-top: 1px solid var(--borde-acero); padding: 50px 24px; text-align: center; position: relative; z-index: 1; }
+        .pie p { color: #64748b; font-size: 0.85rem; margin-bottom: 6px; font-weight: 300; }
+        .pie p.copyright { color: #475569; margin-top: 15px; font-size: 0.8rem; }
+
+        /* Panel Flotante Elíptico Alargado Avanzado */
+        .botones-flotantes { 
+            position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%);
+            display: flex; flex-direction: row; align-items: center; gap: 10px; z-index: 9999; 
+            background: rgba(14, 16, 16, 0.85);
+            border: 1px solid var(--borde-acero); padding: 8px 14px; border-radius: 14px;
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.85);
+            max-width: 92vw; overflow-x: auto; scrollbar-width: none;
+        }
+        .botones-flotantes::-webkit-scrollbar { display: none; }
+
+        /* Botones Alargados de Precisión Técnica */
+        .btn-flotante { 
+            height: 40px; padding: 0 16px; border-radius: 8px; 
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+            color: #0f1110 !important; font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 600;
+            letter-spacing: 0.3px; text-decoration: none; background: var(--cromo);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3); transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            border: 1px solid #a6a6a6; cursor: pointer; white-space: nowrap;
+        }
+        .btn-flotante i { font-size: 14px; }
+        .btn-flotante span { display: inline; }
+
+        .btn-flotante:hover, .btn-flotante.seccion-activa { 
+            transform: translateY(-3px); 
+            border-color: var(--verde-brillante); 
+            box-shadow: 0 6px 20px rgba(0, 230, 92, 0.5);
+            background: #ffffff;
+        }
+        
+        /* Modal QR Refinado */
+        .ventana-qr { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(5,6,6,0.92); backdrop-filter: blur(10px); z-index: 10000; align-items: center; justify-content: center; padding: 20px; }
+        .contenido-qr { background: #0d0f0f; border: 1px solid var(--borde-acero); border-radius: 20px; padding: 40px 24px; max-width: 400px; width: 100%; text-align: center; position: relative; box-shadow: 0 30px 60px rgba(0,0,0,0.8); }
+        .cerrar-qr { position: absolute; top: 15px; right: 20px; color: #64748b; font-size: 26px; cursor: pointer; transition: color 0.2s; }
+        .cerrar-qr:hover { color: var(--verde-brillante); }
+        #codigo-qr { margin: 25px auto; padding: 15px; background: #fff; border-radius: 12px; display: inline-block; }
+        .url-qr { color: var(--verde-premium); font-size: 0.85rem; word-break: break-all; font-weight: 400; }
+
+        /* Adaptación Ultra-Responsiva para Teléfonos Móviles */
+        @media (max-width: 768px) {
+            .btn-flotante span { display: none; }
+            .btn-flotante { padding: 0 12px; width: 40px; border-radius: 8px; }
+            .botones-flotantes { bottom: 15px; padding: 6px 10px; gap: 6px; }
+        }
+    </style>
+</head>
+<body>
+
+<canvas id="particulas"></canvas>
+
+<header class="cabecera">
+    <!-- Logotipo Principal Actualizado -->
+    <img src="1000010086.png" alt="SIDC - Servicios Integrales Cázares">
+</header>
+
+<section class="portada">
+    <!-- Imagen Principal: S.I.D.C. (1000010123.jpg) -->
+    <img src="1000010123.jpg" alt="Operaciones SIDC" class="portada-img">
+    <div class="sombra"></div>
+    <div class="portada-texto">
+        <h1>Servicios Integrales <span>Cázares</span></h1>
+        <p>Soluciones técnicas y de ingeniería de alta precisión para el sector industrial, comercial y residencial corporativo. Infraestructura confiable con sede central en Apodaca, Nuevo León.</p>
+        <div style="margin-top: 15px;">
+            <a href="#servicios" class="btn">PORTAFOLIO DE SERVICIOS <i class="fa-solid fa-chevron-down"></i></a>
+            <a href="#contacto" class="btn btn-borde">SOLICITAR COTIZACIÓN</a>
+        </div>
+    </div>
+</section>
+
+<div class="contenedor revelar" id="servicios">
+    <div class="titulo-seccion">
+        <h2>Catálogo de Especialidades <span>Industriales</span></h2>
+        <p>Despliegue operativo y técnico diseñado para cumplir las exigencias normativas y operativas de clientes de alta escala.</p>
+    </div>
+
+    <div class="grid-industrial">
+        <!-- Tarjeta 1: Foto 1 (1000010117.jpg) -->
+        <div class="tarjeta-tecnica">
+            <div class="tarjeta-img-wrap">
+                <img src="1000010117.jpg" alt="Mantenimiento en Aviación e Infraestructura" class="tarjeta-img">
+            </div>
+            <div class="tarjeta-cuerpo">
+                <h3><i class="fa-solid fa-plane-up"></i> Soporte de Gran Escala</h3>
+                <p>Mantenimiento especializado a activos críticos, hangares y componentes del sector aeronáutico y logístico de alta exigencia.</p>
+            </div>
+        </div>
+        
+        <!-- Tarjeta 2: Foto 2 (1000010118.jpg) -->
+        <div class="tarjeta-tecnica">
+            <div class="tarjeta-img-wrap">
+                <img src="1000010118.jpg" alt="Centro de Maquinados e Ingeniería" class="tarjeta-img">
+            </div>
+            <div class="tarjeta-cuerpo">
+                <h3><i class="fa-solid fa-gears"></i> Plantas de Manufactura</h3>
+                <p>Operación en centros de maquinado industrial, control de herramientas y mantenimiento integral de líneas de producción de flujo continuo.</p>
+            </div>
+        </div>
+
+        <!-- Tarjeta 3: Foto 3 (1000010119.jpg) -->
+        <div class="tarjeta-tecnica">
+            <div class="tarjeta-img-wrap">
+                <img src="1000010119.jpg" alt="Maniobra de Carga y Montajes" class="tarjeta-img">
+            </div>
+            <div class="tarjeta-cuerpo">
+                <h3><i class="fa-solid fa-weight-hanging"></i> Rigging y Maniobras</h3>
+                <p>Movimiento, elevación y anclaje técnico de maquinaria pesada bajo rigurosos estándares de seguridad y balance de carga estructural.</p>
+            </div>
+        </div>
+
+        <!-- Tarjeta 4: Foto 4 (1000010121.jpg) -->
+        <div class="tarjeta-tecnica">
+            <div class="tarjeta-img-wrap">
+                <img src="1000010121.jpg" alt="Estructuras de Acero y Almacenaje" class="tarjeta-img">
+            </div>
+            <div class="tarjeta-cuerpo">
+                <h3><i class="fa-solid fa-cubes"></i> Sistemas de Almacenamiento</h3>
+                <p>Diseño, armado e instalación de racks técnicos móviles, estructuras tubulares metálicas y líneas de rodillos transportadores.</p>
+            </div>
+        </div>
+
+        <!-- Tarjeta 5: Foto 5 (1000010120.jpg) -->
+        <div class="tarjeta-tecnica">
+            <div class="tarjeta-img-wrap">
+                <img src="1000010120.jpg" alt="Grúas Viajeras y Sistemas de Izaje" class="tarjeta-img">
+            </div>
+            <div class="tarjeta-cuerpo">
+                <h3><i class="fa-solid fa-dolly"></i> Sistemas de Izaje Fijos</h3>
+                <p>Montaje y calibración operativa de grúas pórtico móviles y estructuras polipasto para líneas de ensamble masivo.</p>
+            </div>
+        </div>
+
+        <!-- Tarjeta 6: Foto 6 (1000010122.jpg) -->
+        <div class="tarjeta-tecnica">
+            <div class="tarjeta-img-wrap">
+                <img src="1000010122.jpg" alt="Soldadura y Pailería de Alta Resistencia" class="tarjeta-img">
+            </div>
+            <div class="tarjeta-cuerpo">
+                <h3><i class="fa-solid fa-fire"></i> Soldadura Especializada</h3>
+                <p>Procesos de pailería y unión de aleaciones de alta resistencia con emisión controlada de arco eléctrico y protección estructural.</p>
+            </div>
+        </div>
+
+        <!-- Tarjeta 7: Foto 7 (1000010125.jpg) -->
+        <div class="tarjeta-tecnica">
+            <div class="tarjeta-img-wrap">
+                <img src="1000010125.jpg" alt="Mobiliario Técnico de Aluminio Estructural" class="tarjeta-img">
+            </div>
+            <div class="tarjeta-cuerpo">
+                <h3><i class="fa-solid fa-wrench"></i> Estaciones Ergónomicas</h3>
+                <p>Construcción modular de bancos de trabajo en perfilería de aluminio extruido, tableros perforados portaherramientas y accesorios lógicos.</p>
+            </div>
+        </div>
+
+        <!-- Tarjeta 8: Foto 8 (1000010124.jpg) -->
+        <div class="tarjeta-tecnica">
+            <div class="tarjeta-img-wrap">
+                <img src="1000010124.jpg" alt="Automatización de Tableros de Control" class="tarjeta-img">
+            </div>
+            <div class="tarjeta-cuerpo">
+                <h3><i class="fa-solid fa-bolt"></i> Tableros de Control Eléctrico</h3>
+                <p>Integración y cableado técnico de consolas HMI, sistemas de automatización lógica programable (PLC) y paros de emergencia normados.</p>
+            </div>
+        </div>
+
+        <!-- Tarjeta 9: Foto 9 (1000010126.jpg) -->
+        <div class="tarjeta-tecnica">
+            <div class="tarjeta-img-wrap">
+                <img src="1000010126.jpg" alt="Maquinado por Torno CNC" class="tarjeta-img">
+            </div>
+            <div class="tarjeta-cuerpo">
+                <h3><i class="fa-solid fa-screwdriver-wrench"></i> Torneado y Fresado CNC</h3>
+                <p>Remoción de material y desbaste de alta velocidad para la fabricación de piezas cilíndricas roscadas con tolerancias milimétricas.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="manifiesto-ingenieria revelar">
+        <h2>Ingeniería y Cumplimiento Normativo</h2>
+        <p>Garantizamos el éxito de cada intervención mediante personal altamente capacitado, instrumental certificado y apego riguroso a los estándares de seguridad industrial vigentes en el Estado de Nuevo León.</p>
+    </div>
+
+    <div class="mapa-global revelar" id="contacto">
+        <h2>Ubicación Operativa</h2>
+        <div class="mapa-contenedor">
+            <iframe src="https://maps.google.com/maps?q=Calle%205%20de%20Mayo%20511,%20Colonia%20Centro,%20Apodaca,%20Nuevo%20Le%C3%B3n&t=&z=15&ie=UTF8&iwloc=&output=embed" allowfullscreen loading="lazy"></iframe>
+        </div>
+        <p><i class="fa-solid fa-location-dot" style="color:var(--verde-premium);"></i> Calle 5 de Mayo N° 511, Colonia Centro, Apodaca, Nuevo León, C.P. 66600</p>
+        <div style="margin-top: 30px;">
+            <a href="https://wa.me/528116710029?text=Hola,%20solicito%20la%20apertura%20de%20una%20cotizacion%20formal%20de%20proyecto" target="_blank" class="btn btn-wsp"><i class="fa-solid fa-file-invoice-dollar"></i> CONVERSAR POR WHATSAPP</a>
+            <a href="mailto:daniel.cazares@sidc.mx" class="btn btn-mail"><i class="fa-solid fa-envelope"></i> ENVIAR CORREO</a>
+        </div>
+    </div>
+</div>
+
+<footer class="pie">
+    <p>SIDC - Servicios Integrales Cázares | División Corporativa e Industrial</p>
+    <p>Centro Operativo: Apodaca, Nuevo León. Cobertura Logística Estatal.</p>
+    <p class="copyright">© 2026 Servicios Integrales Cázares. Todos los derechos reservados.</p>
+</footer>
+
+<!-- Panel Flotante Elíptico Alargado Avanzado -->
+<div class="botones-flotantes">
+    <button class="btn-flotante" onclick="abrirQR()" title="Compartir Credenciales"><i class="fa-solid fa-qrcode"></i><span>COMPARTIR QR</span></button>
+    <a href="#servicios" id="lnk-servicios" class="btn-flotante" title="Ver Especialidades"><i class="fa-solid fa-gears"></i><span>SERVICIOS</span></a>
+    <a href="#contacto" id="lnk-contacto" class="btn-flotante" title="Ubicación y Enlaces"><i class="fa-solid fa-location-dot"></i><span>CONTACTO</span></a>
+    <a href="mailto:daniel.cazares@sidc.mx" class="btn-flotante" title="Enviar Correo Corporativo"><i class="fa-solid fa-envelope"></i><span>E-MAIL</span></a>
+    <a href="https://wa.me/528116710029?text=Hola,%20solicito%20atencion%20corporativa" target="_blank" class="btn-flotante" title="Canal Directo de WhatsApp"><i class="fa-brands fa-whatsapp"></i><span>WHATSAPP</span></a>
+    <a href="https://www.facebook.com/share/1Hdg8BJYr1/" target="_blank" class="btn-flotante" title="Enlace Institucional Facebook"><i class="fa-brands fa-facebook-f"></i><span>FACEBOOK</span></a>
+    <a href="https://www.instagram.com/emotion_systems?igsh=NzlxeXRzdXY5NTJp" target="_blank" class="btn-flotante" title="Portafolio Digital Instagram"><i class="fa-brands fa-instagram"></i><span>INSTAGRAM</span></a>
+    <a href="https://github.com/dcg2390/DCG-laboratory" target="_blank" class="btn-flotante" title="Infraestructura de Código GitHub"><i class="fa-brands fa-github"></i><span>GITHUB</span></a>
+</div>
+
+<div class="ventana-qr" id="ventanaQR">
+    <div class="contenido-qr">
+        <span class="cerrar-qr" onclick="cerrarQR()">×</span>
+        <h3 style="color:#fff; font-family:'Montserrat', sans-serif; text-transform:uppercase; margin-bottom:12px; font-size:1.1rem; letter-spacing:0.5px;">Enlace Corporativo</h3>
+        <p style="color:#94a3b8; font-size:0.9rem; margin-bottom:15px; font-weight:300;">Escanee el código de transferencia para sincronizar la plataforma con dispositivos móviles.</p>
+        <div id="codigo-qr"></div>
+        <div class="url-qr" id="urlPagina"></div>
+    </div>
+</div>
+
+<script>
+// 1. Iluminación Quirúrgica Interactiva en Tarjetas
+document.querySelectorAll('.tarjeta-tecnica').forEach(tarjeta => {
+    tarjeta.addEventListener('mousemove', e => {
+        const rect = tarjeta.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        tarjeta.style.setProperty('--mouse-x', `${x}px`);
+        tarjeta.style.setProperty('--mouse-y', `${y}px`);
+    });
+});
+
+// 2. Canvas: Nodos Dinámicos
+const canvas = document.getElementById('particulas');
+const ctx = canvas.getContext('2d');
+let nodos = [];
+let mouseX = 0, mouseY = 0;
+
+function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+window.addEventListener('resize', resize); 
+window.addEventListener('mousemove', e => { mouseX = e.clientX; mouseY = e.clientY; });
+resize();
+
+class Nodo {
+    constructor() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.vx = (Math.random() - 0.5) * 0.35;
+        this.vy = (Math.random() - 0.5) * 0.35;
+        this.radio = Math.random() * 1.5 + 1;
+    }
+    update() {
+        this.x += this.vx; this.y += this.vy;
+        let dx = mouseX - this.x;
+        let dy = mouseY - this.y;
+        let distMouse = Math.sqrt(dx * dx + dy * dy);
+        if (distMouse < 120) {
+            this.x -= dx * 0.02;
+            this.y -= dy * 0.02;
+        }
+        if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
+        if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+    }
+    draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radio, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(0, 230, 92, 0.5)';
+        ctx.fill();
+    }
+}
+
+for(let i = 0; i < 45; i++) nodos.push(new Nodo());
+
+function animar() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    for(let i = 0; i < nodos.length; i++) {
+        nodos[i].update();
+        nodos[i].draw();
+        for(let j = i + 1; j < nodos.length; j++) {
+            const dx = nodos[i].x - nodos[j].x;
+            const dy = nodos[i].y - nodos[j].y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            if(dist < 110) {
+                ctx.beginPath();
+                ctx.moveTo(nodos[i].x, nodos[i].y);
+                ctx.lineTo(nodos[j].x, nodos[j].y);
+                ctx.strokeStyle = `rgba(0, 153, 61, ${0.12 * (1 - dist/110)})`;
+                ctx.lineWidth = 0.6;
+                ctx.stroke();
+            }
+        }
+    }
+    requestAnimationFrame(animar);
+}
+animar();
+
+// 3. Scroll Reveal e Tracking Activo
+const elementosARevelar = document.querySelectorAll('.revelar');
+const btnServicios = document.getElementById('lnk-servicios');
+const btnContacto = document.getElementById('lnk-contacto');
+const secServicios = document.getElementById('servicios');
+const secContacto = document.getElementById('contacto');
+
+function manejarScroll() {
+    const scrollTop = window.scrollY;
+    const alturaVentana = window.innerHeight;
+
+    elementosARevelar.forEach(el => {
+        const topElemento = el.getBoundingClientRect().top + scrollTop;
+        if (scrollTop + (alturaVentana * 0.85) > topElemento) {
+            el.classList.add('activo');
+        }
+    });
+
+    if (secContacto && secServicios) {
+        const topContacto = secContacto.getBoundingClientRect().top + scrollTop - 200;
+        const topServicios = secServicios.getBoundingClientRect().top + scrollTop - 200;
+
+        if (scrollTop >= topContacto) {
+            btnContacto.classList.add('seccion-activa');
+            btnServicios.classList.remove('seccion-activa');
+        } else if (scrollTop >= topServicios) {
+            btnServicios.classList.add('seccion-activa');
+            btnContacto.classList.remove('seccion-activa');
+        } else {
+            btnServicios.classList.remove('seccion-activa');
+            btnContacto.classList.remove('seccion-activa');
+        }
+    }
+}
+window.addEventListener('scroll', manejarScroll);
+window.addEventListener('load', manejarScroll);
+
+// 4. Módulo del QR
+const urlActual = window.location.href;
+document.getElementById('urlPagina').textContent = urlActual;
+QRCode.toCanvas(document.getElementById('codigo-qr'), urlActual, { width: 180, margin: 1, color: { dark: '#0d0f0f', light: '#ffffff' } });
+
+function abrirQR() { document.getElementById('ventanaQR').style.display = 'flex'; }
+function cerrarQR() { document.getElementById('ventanaQR').style.display = 'none'; }
+document.getElementById('ventanaQR').addEventListener('click', e => { if(e.target.id === 'ventanaQR') cerrarQR(); });
+</script>
+</body>
+</html>
