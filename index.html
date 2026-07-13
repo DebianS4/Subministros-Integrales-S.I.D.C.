@@ -396,12 +396,12 @@
     <div class="mapa-global revelar" id="contacto">
         <h2>Ubicación Operativa</h2>
         <div class="mapa-contenedor">
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3591.4646738221143!2d-100.19010412371973!3d25.7882583078426!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x86629555cbe83cb1%3A0x6bfe861d8717800c!2sCalle%205%20de%20Mayo%20511%2C%20Centro%2C%2066600%20Cd%20Apodaca%2C%20N.L.!5e0!3m2!1ses-419!2smx!4v1718567845342!5m2!1ses-419!2smx" allowfullscreen loading="lazy"></iframe>
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3591.4646738221143!2d-100.19010412371973!3d25.7882583078426!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x86629555cbe83cb1%3A0x6bfe861d8717800c!2sCalle%205%20de%20Mayo%20510%2C%20Centro%2C%2066600%20Cd%20Apodaca%2C%20N.L.!5e0!3m2!1ses-419!2smx!4v1718567845342!5m2!1ses-419!2smx" allowfullscreen loading="lazy"></iframe>
         </div>
         <p><i class="fa-solid fa-location-dot" style="color:var(--verde-premium);"></i> Calle 5 de Mayo N° 510, Colonia Centro, Apodaca, Nuevo León, C.P. 66600</p>
         <div style="margin-top: 30px;">
             <a href="https://wa.me/528116710029?text=Hola,%20solicito%20la%20apertura%20de%20una%20cotizacion%20formal%20de%20proyecto" target="_blank" class="btn btn-wsp"><i class="fa-solid fa-file-invoice-dollar"></i> CONVERSAR POR WHATSAPP</a>
-            <a href="mailto:daniel.cazares@outlook.mx" class="btn btn-mail"><i class="fa-solid fa-envelope"></i> ENVIAR CORREO</a>
+            <a href="mailto:daniel.cazares@outlook.com" class="btn btn-mail"><i class="fa-solid fa-envelope"></i> ENVIAR CORREO</a>
         </div>
     </div>
 </div>
@@ -423,13 +423,23 @@ function abrirQR() {
   window.open('plataforma_qr.png', '_blank', 'width=500,height=550,scrollbars=no,menubar=no,toolbar=no,top=100,left=100');
 }
 </script>
+
+    <button class="btn-flotante" onclick="abrirQR()" title="Compartir Credenciales"><i class="fa-solid fa-qrcode"></i><span>COMPARTIR QR</span></button>
+
+<script>
+function abrirQR() {
+  window.open('qr_fondo_negro.png', '_blank', 'width=520,height=560,scrollbars=no');
+}
+</script>
     
     <a href="#servicios" id="lnk-servicios" class="btn-flotante" title="Ver Especialidades"><i class="fa-solid fa-gears"></i><span>SERVICIOS</span></a>
     <a href="#contacto" id="lnk-contacto" class="btn-flotante" title="Ubicación y Enlaces"><i class="fa-solid fa-location-dot"></i><span>CONTACTO</span></a>
-    <a href="mailto:daniel.cazares@sidc.mx" class="btn-flotante" title="Enviar Correo"><i class="fa-solid fa-envelope"></i><span>E-MAIL</span></a>
+    <a href="mailto:daniel.cazares.garza@outlook.com" class="btn-flotante" title="Enviar Correo"><i class="fa-solid fa-envelope"></i><span>E-MAIL</span></a>
     <a href="https://wa.me/528116710029?text=Hola,%20solicito%20atencion%20corporativa" target="_blank" class="btn-flotante" title="Canal Directo de WhatsApp"><i class="fa-brands fa-whatsapp"></i><span>WHATSAPP</span></a>
     <a href="https://www.facebook.com/share/p/1Ej5dRpoX1/" target="_blank" class="btn-flotante" title="Enlace Facebook"><i class="fa-brands fa-facebook-f"></i><span>FACEBOOK</span></a>
     <a href="https://www.instagram.com/emotion_systems?igsh=NzlxeXRzdXY5NTJp" target="_blank" class="btn-flotante" title="Portafolio Instagram"><i class="fa-brands fa-instagram"></i><span>INSTAGRAM</span></a>
+    <button class="btn-flotante" onclick="window.location.href='mailto:daniel.cazares.garza@outlook.com'" title="Enviar correo"><i class="fa-solid fa-envelope"></i><span>ENVIAR CORREO</span></button>
+    <button class="btn-flotante" onclick="abrirQR()" title="Compartir Credenciales"><i class="fa-solid fa-qrcode"></i><span>COMPARTIR QR</span></button>
     <button class="btn-flotante" onclick="window.location.href='mailto:daniel.cazares.garza@outlook.com'" title="Enviar correo"><i class="fa-solid fa-envelope"></i><span>ENVIAR CORREO</span></button>
     <button class="btn-flotante" onclick="window.open('https://www.facebook.com/share/p/1Ej5dRpoX1/', '_blank')" title="Ir a Subministros Integrales Cázares"><i class="fa-brands fa-facebook"></i><span>PÁGINA CÁZARES</span></button>
     <a href="https://github.com/dcg2390/DCG-laboratory" target="_blank" class="btn-flotante" title="Repositorio GitHub"><i class="fa-brands fa-github"></i><span>GITHUB</span></a>
