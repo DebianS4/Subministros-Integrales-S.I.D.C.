@@ -5,3 +5,4 @@ Empresa líder en soluciones técnicas y de ingeniería de alta precisión
 ---
 
 ![Presentación SIDC](readme.jpg)
+
