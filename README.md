@@ -6,3 +6,8 @@ Empresa líder en soluciones técnicas y de ingeniería de alta precisión
 </p>
 
 
+📊 ESTADÍSTICAS
+Estadísticas Lenguajes Racha de actividad
+
+🔗 PANEL DE ENLACES
+WhatsApp Grupo Oficial Soporte GitHub Repositorio Versión Estado Visitas
